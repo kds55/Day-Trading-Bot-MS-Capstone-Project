@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html>  
+<head>  
+    <title>Day Trading Bot</title>  
+</head>  
+<body>  
+    <center>
+    <h1>Day Trading Bot</h1>
+    <h4>Upload your ES data to predict whether you should buy or not</h4>
+    See instructions at the bottom of the page for further guidance
+    <br>
+    <br>
+    Prediction status:
+    <p style="color:green;">File uploaded and prediction made successfully!</p>
+      
+    <form method = "POST" enctype="multipart/form-data" action = "/">   
+        <input type="file" name="file" accept=".csv">
+        <input type = "submit" value="Upload and Predict">  
+    </form> 
+
+   <br>
+    <form action="/show_data" target="_blank">
+          <input type="submit" value="Show CSV"/>
+      </form>
+
+      <!--
+    <br>
+    <form action="/predict" target="_blank">
+        <input type="submit" value="Show Predictions"/>
+    </form> 
+    -->
+
+    <br>
+    <br>
+
+    <table>
+        <caption>Strategy Breakdown<br>
+        All conditions must be met:</caption>
+            
+        <tr>
+          <th>Criteria</th>
+          <th>Met?</th>
+        </tr>
+        <tr>
+          <td>Model prediction buy?</td>
+          <td>{{ prediction_text }}</td>
+        </tr>
+        <tr>
+            <td>Price > 20 EMA?</td>
+            <td>{{ema_text }}</td>
+        <tr>
+          <td>Trend direction up?</td>
+          <td>{{ trend_text }}</td>
+        <tr>
+            <td>MACD bullish?</td>
+            <td>{{ macd_text }}</td>
+        <tr>
+            <td>Risk < $4?</td>
+            <td>{{ risk_text }}</td>    
+        <tr>
+            <td>All criteria met?</td>
+            <td>{{ strat_text }}</td>
+        </tr>
+      </table>
+
+    <br>
+    <br>
+
+    <table>
+        <caption>Trade Details</caption>
+        <tr>
+          <th>Details</th>
+          <th>Value</th>
+        </tr>
+
+        </tr>
+        <tr>
+            <td>Entry price</td>
+            <td>{{ entry_text }}</td>
+        <tr>
+          <td>Target price</td>
+          <td>{{ target_text }}</td>
+        <tr>
+            <td>Stop price</td>
+            <td>{{ stop_text }}</td>
+        <tr>
+        <tr>
+            <td>Profit if winner</td>
+            <td>{{ win_text }}</td>
+        <tr>
+            <td>Loss if loser</td>
+            <td>{{ loss_text }}</td>
+        </tr>
+      </table>
+
+
+
+    </center> 
+
+
+    <br> <br><br>
+    <h4>Instructions:</h4>
+    The above program calculates if there is a current opportunity in the stock market to buy and make a profit. 
+    <br>It will do so by making a prediction on the future direction of the market using a machine learning model.
+    <br>It will use this prediction along with additional criteria:
+    <br>- The current price is below the 20 exponential rolling average
+    <br>- The trend is currently upwards
+    <br>- The MACD indicator is showing bullish
+    <br>- The total risk of the trade is less than $4
+    <br><br>If these conditions are met, a trade should be taken. The following information will be provided to complete the trade:
+    <br>- Entry price - Price you should enter at
+    <br>- Target price - Price you should take profits and exit at
+    <br>- Stop price - Price you should exit the market if the trade is going against you
+    <br>- Profit if winner and loss if loser - This is the profit and loss potential of the trade
+
+    
+    <br><br>To use the model: <br>
+    <br>1 - Upload a CSV of the stock market data using 5 minute intervals (Note the model was trained to work on 5 minute intervals, and other time period will give non-accurate results)
+    <br>    - The CSV must contain the following columns labeled as such: 'date' including the time, 'open', 'high', 'low
+    <br>    - The data should be sorted in descending order with the current bar at the bottom
+    <br>    - There will need to be at least 200 consecutive bars in the CSV
+    <br>
+    2 - Optional step. You can verify your CSV uploaded correctly by clickign on the 'Show CSV' button
+    <br>
+    3 - If trade details are outputted, use these to execute your trade
+
+
+</body>  
+</html>
